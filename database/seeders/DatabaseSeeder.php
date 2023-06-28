@@ -4,9 +4,11 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use App\Models\UserRole;
+use App\Models\User;
+use App\Models\VideoCategory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,74 +24,32 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        DB::table('user_role')->insert([
-            'name' => 'Member',
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        UserRole::create([
+            'name' => 'Member'
         ]);
 
-        DB::table('user_role')->insert([
-            'name' => 'Moderator',
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        UserRole::create([
+            'name' => 'Moderator'
         ]);
 
-        DB::table('user_role')->insert([
-            'name' => 'Administrator',
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        UserRole::create([
+            'name' => 'Administrator'
         ]);
 
-        DB::table('user')->insert([
+        User::create([
             'user_role_id' => 2,
             'first_name' => 'Daniel',
             'last_name' => 'Buhaianu',
             'email' => 'dsb99.dev@gmail.com',
-            'password' => Hash::make('Abc123000!'),
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            'password' => Hash::make('Abc123000!')
         ]);
 
-        DB::table('video_category')->insert([
-            'name' => 'Tate Confidential',
-            'slug' => 'tate-confidential',
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        VideoCategory::create([
+            'name' => 'Tate Confidential'
         ]);
 
-        DB::table('video_category')->insert([
-            'name' => 'Tate Speech',
-            'slug' => 'tate-speech',
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-        ]);
-
-        DB::table('video_category')->insert([
-            'name' => 'Tate Interviews',
-            'slug' => 'tate-interviews',
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-        ]);
-
-        DB::table('video_category')->insert([
-            'name' => 'Tate Motivation',
-            'slug' => 'tate-motivation',
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-        ]);
-
-        DB::table('video_category')->insert([
-            'name' => 'Tate Shorts',
-            'slug' => 'tate-shorts',
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-        ]);
-
-        DB::table('video_category')->insert([
-            'name' => 'Emergency Meetings',
-            'slug' => 'emergency-meetings',
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        VideoCategory::create([
+            'name' => 'Tate Speech'
         ]);
     }
 }
