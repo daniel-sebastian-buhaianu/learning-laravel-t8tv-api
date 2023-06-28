@@ -25,11 +25,11 @@ class StoreVideoCategoryRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:video_category|string|max:100',
-            'slug' => [
-                'required',
-                'string',
-                'unique:video_category'
-            ]
+            // 'slug' => [
+            //     'required',
+            //     'string',
+            //     'unique:video_category'
+            // ]
         ];
     }
 
@@ -41,15 +41,15 @@ class StoreVideoCategoryRequest extends FormRequest
         return [
             function (Validator $validator)
             {
-                if (!empty($this->name) && $this->slugIsInvalid())
-                {
-                    $slug = Str::slug($this->name, '-');
+                // if (!empty($this->name) && $this->slugIsInvalid())
+                // {
+                //     $slug = Str::slug($this->name, '-');
 
-                    $validator->errors()->add(
-                        'slug',
-                        "Invalid slug. Slug value must be: $slug"
-                    );
-                }
+                //     $validator->errors()->add(
+                //         'slug',
+                //         "Invalid slug. Slug value must be: $slug"
+                //     );
+                // }
             }
         ];
     }
@@ -59,13 +59,13 @@ class StoreVideoCategoryRequest extends FormRequest
      */
     private function slugIsInvalid()
     {
-        $slug = Str::slug($this->name, '-');
+        // $slug = Str::slug($this->name, '-');
 
-        if ($this->slug !== $slug)
-        {
-            return true;
-        }
+        // if ($this->slug !== $slug)
+        // {
+        //     return true;
+        // }
 
-        return false;
+        // return false;
     }
 }

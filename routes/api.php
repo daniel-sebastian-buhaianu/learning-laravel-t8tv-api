@@ -28,6 +28,10 @@ Route::get('/rumble-video', [App\Http\Controllers\RumbleVideoController::class, 
 
 Route::get('/video-category', [App\Http\Controllers\VideoCategoryController::class, 'index']);
 Route::post('/video-category', [App\Http\Controllers\VideoCategoryController::class, 'store']);
+Route::get('/video-category/{id}', [App\Http\Controllers\VideoCategoryController::class, 'show']);
+Route::put('/video-category/{id}', [App\Http\Controllers\VideoCategoryController::class, 'update']);
+Route::delete('/video-category/{id}', [App\Http\Controllers\VideoCategoryController::class, 'destroy']);
+Route::get('/video-category/search/{name}', [App\Http\Controllers\VideoCategoryController::class, 'search']);
 
 // Route::post('/video-category', function() {
 //     return VideoCategory::create([
