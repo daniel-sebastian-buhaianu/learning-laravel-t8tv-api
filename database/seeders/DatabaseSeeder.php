@@ -52,36 +52,42 @@ class DatabaseSeeder extends Seeder
 
         DB::table('video_category')->insert([
             'name' => 'Tate Confidential',
+            'slug' => 'tate-confidential',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
 
         DB::table('video_category')->insert([
             'name' => 'Tate Speech',
+            'slug' => 'tate-speech',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
 
         DB::table('video_category')->insert([
             'name' => 'Tate Interviews',
+            'slug' => 'tate-interviews',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
 
         DB::table('video_category')->insert([
             'name' => 'Tate Motivation',
+            'slug' => 'tate-motivation',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
 
         DB::table('video_category')->insert([
             'name' => 'Tate Shorts',
+            'slug' => 'tate-shorts',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
 
         DB::table('video_category')->insert([
             'name' => 'Emergency Meetings',
+            'slug' => 'emergency-meetings',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);

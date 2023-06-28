@@ -6,7 +6,6 @@ use App\Models\UserRole;
 use App\Models\User;
 use App\Models\RumbleChannel;
 use App\Models\RumbleVideo;
-use App\Models\VideoCategory;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,25 +18,22 @@ use App\Models\VideoCategory;
 |
 */
 
-Route::get('/user-role', function() {
-    return UserRole::all();
-});
+Route::get('/user-role', [App\Http\Controllers\UserRoleController::class, 'index']);
 
-Route::get('/user', function() {
-    return User::all();
-});
+Route::get('/user', [App\Http\Controllers\UserController::class, 'index']);
 
-Route::get('/rumble-channel', function() {
-    return RumbleChannel::all();
-});
+Route::get('/rumble-channel', [App\Http\Controllers\RumbleChannelController::class, 'index']);
 
-Route::get('/rumble-video', function() {
-    return RumbleVideo::all();
-});
+Route::get('/rumble-video', [App\Http\Controllers\RumbleVideoController::class, 'index']);
 
-Route::get('/video-category', function() {
-    return VideoCategory::all();
-});
+Route::get('/video-category', [App\Http\Controllers\VideoCategoryController::class, 'index']);
+Route::post('/video-category', [App\Http\Controllers\VideoCategoryController::class, 'store']);
+
+// Route::post('/video-category', function() {
+//     return VideoCategory::create([
+//         'name' => 'Tate Specials'
+//     ]);
+// });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
