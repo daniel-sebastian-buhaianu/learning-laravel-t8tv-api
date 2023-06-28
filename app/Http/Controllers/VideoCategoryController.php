@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\VideoCategory;
+use App\Http\Requests\StoreVideoCategoryRequest;
 
 class VideoCategoryController extends Controller
 {
@@ -18,10 +19,9 @@ class VideoCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreVideoCategoryRequest $request)
     {
-        
-        // return VideoCategory::create($request->all());
+        return VideoCategory::create($request->all());
     }
 
     /**
