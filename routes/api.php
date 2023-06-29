@@ -39,10 +39,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 	Route::post('/logout', [AuthController::class, 'logout']);
 
-	Route::get('/user', [UserController::class, 'index']);
 	Route::get('/rumble-channel', [RumbleChannelController::class, 'index']);
 	Route::get('/rumble-video', [RumbleVideoController::class, 'index']);
 
+	// Video Category
 	Route::controller(VideoCategoryController::class)->group(function () {
 		Route::get('/video-category', 'index');
 		Route::post('/video-category', 'store')->middleware('can:create,App\Models\VideoCategory');
@@ -52,6 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 		Route::get('/video-category/search/{name}', 'search');
 	});
 
+	// User Role
 	Route::controller(UserRoleController::class)->group(function () {
 		Route::get('/user-role', 'index');
 		Route::post('/user-role', 'store')->middleware('can:create,App\Models\UserRole');
@@ -59,5 +60,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 		Route::put('/user-role/{id}', 'update')->middleware('can:update,App\Models\UserRole');
 		Route::delete('/user-role/{id}', 'destroy')->middleware('can:delete,App\Models\UserRole');
 		Route::get('/user-role/search/{name}', 'search');
+	});
+
+	// User
+	Route::controller(UserController::class)->group(function () {
+		Route::get('/user', 'index')->middleware('can:viewAny,App\Models\User');
+		Route::get('/user/{id}', 'show')->middleware('can:view,App\Models\User,id');
+		Route::put('/user/{id}', 'update')->middleware('can:update,App\Models\User,id');
+		Route::delete('/user/{id}', 'destroy')->middleware('can:delete,App\Models\User');
+		Route::get('/user/search/{email}', 'search')->middleware('can:viewAny,App\Models\User');
 	});
 });
