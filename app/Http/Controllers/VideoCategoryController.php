@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 use App\Models\VideoCategory;
-use App\Http\Requests\StoreVideoCategoryRequest;
-use App\Http\Requests\UpdateVideoCategoryRequest;
 
 class VideoCategoryController extends Controller
 {
@@ -21,8 +20,14 @@ class VideoCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreVideoCategoryRequest $request)
+    public function store(Request $request)
     {
+        Validator::make($request->all(), [
+            'name' => 'required|unique:video_category|string|max:100'
+        ], [
+            'name.unique' => 'A video category with that name already exists.',
+        ])->validate();
+
         return VideoCategory::create([
             'name' => $request->name
         ]);
@@ -39,8 +44,14 @@ class VideoCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateVideoCategoryRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
+        Validator::make($request->all(), [
+            'name' => 'required|unique:video_category|string|max:100'
+        ], [
+            'name.unique' => 'A video category with that name already exists.',
+        ])->validate();
+        
         $videoCategory = VideoCategory::find($id);
         $videoCategory->update([
             'name' => $request->name,
@@ -59,7 +70,7 @@ class VideoCategoryController extends Controller
     }
 
     /**
-     * Search video category by name.
+     * Search resource listings by name.
      */
     public function search(string $name)
     {

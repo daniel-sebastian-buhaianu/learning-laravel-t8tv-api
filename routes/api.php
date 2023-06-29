@@ -30,17 +30,6 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login');
 });
 
-Route::get('/user-role', [UserRoleController::class, 'index']);
-Route::get('/user', [UserController::class, 'index']);
-Route::get('/rumble-channel', [RumbleChannelController::class, 'index']);
-Route::get('/rumble-video', [RumbleVideoController::class, 'index']);
-
-Route::controller(VideoCategoryController::class)->group(function () {
-	Route::get('/video-category', 'index');
-	Route::get('/video-category/{id}', 'show');
-	Route::get('/video-category/search/{name}', 'search');
-});
-
 /*
 |--------------------------------------------------------------------------
 | Protected Routes
@@ -48,12 +37,27 @@ Route::controller(VideoCategoryController::class)->group(function () {
 */
 Route::middleware(['auth:sanctum'])->group(function () {
 
-	Route::controller(VideoCategoryController::class)->group(function () {
-		Route::post('/video-category', 'store');
-		Route::put('/video-category/{id}', 'update');
-		Route::delete('/video-category/{id}', 'destroy');
-	});
-
 	Route::post('/logout', [AuthController::class, 'logout']);
 
+	Route::get('/user', [UserController::class, 'index']);
+	Route::get('/rumble-channel', [RumbleChannelController::class, 'index']);
+	Route::get('/rumble-video', [RumbleVideoController::class, 'index']);
+
+	Route::controller(VideoCategoryController::class)->group(function () {
+		Route::get('/video-category', 'index');
+		Route::post('/video-category', 'store')->middleware('can:create,App\Models\VideoCategory');
+		Route::get('/video-category/{id}', 'show');
+		Route::put('/video-category/{id}', 'update')->middleware('can:update,App\Models\VideoCategory');
+		Route::delete('/video-category/{id}', 'destroy')->middleware('can:delete,App\Models\VideoCategory');
+		Route::get('/video-category/search/{name}', 'search');
+	});
+
+	Route::controller(UserRoleController::class)->group(function () {
+		Route::get('/user-role', 'index');
+		Route::post('/user-role', 'store')->middleware('can:create,App\Models\UserRole');
+		Route::get('/user-role/{id}', 'show');
+		Route::put('/user-role/{id}', 'update')->middleware('can:update,App\Models\UserRole');
+		Route::delete('/user-role/{id}', 'destroy')->middleware('can:delete,App\Models\UserRole');
+		Route::get('/user-role/search/{name}', 'search');
+	});
 });
