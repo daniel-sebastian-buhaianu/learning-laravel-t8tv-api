@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Models\RumbleChannel;
 
 class RumbleChannelController extends Controller
@@ -20,7 +21,32 @@ class RumbleChannelController extends Controller
      */
     public function store(Request $request)
     {
-        // return RumbleChannel::create($request->all());
+        Validator::make($request->all(), [
+            'url' => [
+                'required',
+                'unique:rumble_channel',
+                'string',
+                'max:255',
+                'url',
+                'active_url',
+                'starts_with:https://rumble.com/c/,https://www.rumble.com/c/',
+            ],
+        ], [
+            'url.unique' => 'A rumble channel with that url already exists.',
+        ])->validate();
+
+        $res = addRumbleChannelToDatabase(
+            getRumbleChannelAboutData($request->url)['data']
+        );
+
+        if (true === $res['success'])
+        {
+            return $res['data'];
+        }
+
+        return [
+            'message' => $res['error']
+        ];
     }
 
     /**
@@ -28,7 +54,7 @@ class RumbleChannelController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return RumbleChannel::find($id);
     }
 
     /**
@@ -44,6 +70,14 @@ class RumbleChannelController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return RumbleChannel::destroy($id);
+    }
+
+    /**
+     * Search resource listings by title.
+     */
+    public function search(string $title)
+    {
+        return RumbleChannel::where('title', 'like', '%'.$title.'%')->get();
     }
 }

@@ -2,8 +2,6 @@
 
 use \App\Models\RumbleChannel;
 use \App\Models\RumbleVideo;
-use \Illuminate\Database\QueryException;
-
 
 /* Template */
 if (!function_exists('name'))
@@ -108,34 +106,6 @@ if (!function_exists('getRumbleChannelVideosData'))
     }
 }
 
-if (!function_exists('getRumbleChannelAboutData'))
-{
-    function getRumbleChannelAboutData($url)
-    {
-        $apiUrl = "https://dsb99.app/rumble/api/v1/channel?url=$url";
-        $response = json_decode(makeGetRequest($apiUrl));
-
-        if (empty($response->data->url) || empty($response->data->id))
-        {
-            return array(
-                'data' => null,
-                'error' => $response->message
-            );
-        }
-
-        $rumbleChannelId = $response->data->id;
-        $apiUrl = 'https://dsb99.app/rumble/api/v1/channel/'.$rumbleChannelId.'/about';
-        $response = json_decode(makeGetRequest($apiUrl));
-        $data = $response->data;
-        $data->id = $rumbleChannelId;
-
-        return array(
-            'data' => $data,
-            'error' => null
-        );
-    }
-}
-
 if (!function_exists('getRumbleChannelIdInTable'))
 {
     function getRumbleChannelIdInTable($rumbleChannelId)
@@ -172,9 +142,9 @@ if (!function_exists('addRumbleVideoToDatabase'))
                 'comments_count' => convertRumbleFollowersCountToInt($data->counters->comments),
             ]);
         }
-        catch (QueryException $exception)
+        catch (\Exception $e)
         {
-            $errorInfo = $exception->errorInfo;
+            $errorInfo = $e->getMessage();
 
             return array(
                 'success' => false,
@@ -193,9 +163,17 @@ if (!function_exists('addRumbleChannelToDatabase'))
 {
     function addRumbleChannelToDatabase($data)
     {
+        if (null === $data)
+        {
+            return array(
+                'success' => false,
+                'error' => 'Could not find any rumble channel with that URL. Please ensure the URL is valid or the channel exists.'
+            );
+        }
+
         try
         {
-            RumbleChannel::create([
+            $rumbleChannel = RumbleChannel::create([
                 'rumble_id' => $data->id,
                 'url' => "https://rumble.com/c/$data->id",
                 'title' => $data->title,
@@ -207,9 +185,9 @@ if (!function_exists('addRumbleChannelToDatabase'))
                 'videos_count' => convertRumbleVideosCountToInt($data->videos_count),
             ]);
         }
-        catch (QueryException $exception)
+        catch (\Exception $e)
         {
-            $errorInfo = $exception->errorInfo;
+            $errorInfo = $e->getMessage();
 
             return array(
                 'success' => false,
@@ -219,6 +197,35 @@ if (!function_exists('addRumbleChannelToDatabase'))
 
         return array(
             'success' => true,
+            'data' => $rumbleChannel,
+            'error' => null
+        );
+    }
+}
+
+if (!function_exists('getRumbleChannelAboutData'))
+{
+    function getRumbleChannelAboutData($rumbleChannelUrl)
+    {
+        $apiUrl = "https://dsb99.app/rumble/api/v1/channel?url=$rumbleChannelUrl";
+        $response = json_decode(makeGetRequest($apiUrl));
+
+        if (empty($response->data->url) || empty($response->data->id))
+        {
+            return array(
+                'data' => null,
+                'error' => $response->message
+            );
+        }
+
+        $rumbleChannelId = $response->data->id;
+        $apiUrl = 'https://dsb99.app/rumble/api/v1/channel/'.$rumbleChannelId.'/about';
+        $response = json_decode(makeGetRequest($apiUrl));
+        $data = $response->data;
+        $data->id = $rumbleChannelId;
+
+        return array(
+            'data' => $data,
             'error' => null
         );
     }
