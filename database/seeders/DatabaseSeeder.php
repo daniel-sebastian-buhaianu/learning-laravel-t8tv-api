@@ -51,5 +51,17 @@ class DatabaseSeeder extends Seeder
         VideoCategory::create([
             'name' => 'Tate Speech'
         ]);
+
+        addRumbleChannelToDatabase(
+            getRumbleChannelAboutData('https://rumble.com/c/tateconfidential')['data']
+        );
+
+        addRumbleChannelToDatabase(
+            getRumbleChannelAboutData('https://rumble.com/c/TateSpeech')['data']
+        );
+
+        addRumbleVideosToDatabase('https://rumble.com/c/tateconfidential');
+        
+        addRumbleVideosToDatabase('https://rumble.com/c/TateSpeech');
     }
 }
