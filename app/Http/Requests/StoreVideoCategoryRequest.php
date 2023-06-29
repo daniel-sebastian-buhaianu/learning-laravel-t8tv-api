@@ -24,48 +24,22 @@ class StoreVideoCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:video_category|string|max:100',
-            // 'slug' => [
-            //     'required',
-            //     'string',
-            //     'unique:video_category'
-            // ]
+            'name' => 'required|unique:video_category|string|max:100'
         ];
     }
 
     /**
-     * Get the "after" validation callables for the request.
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
      */
-    public function after(): array
+    public function messages(): array
     {
         return [
-            function (Validator $validator)
-            {
-                // if (!empty($this->name) && $this->slugIsInvalid())
-                // {
-                //     $slug = Str::slug($this->name, '-');
-
-                //     $validator->errors()->add(
-                //         'slug',
-                //         "Invalid slug. Slug value must be: $slug"
-                //     );
-                // }
-            }
+            'name.required' => 'The name field is required.',
+            'name.unique' => 'A video category with that name already exists.',
+            'name.string' => 'The name field must be a string.',
+            'name.max' => 'The name field may not be greater than :max characters.',
         ];
-    }
-
-    /**
-     * Check if 'slug' field is invalid
-     */
-    private function slugIsInvalid()
-    {
-        // $slug = Str::slug($this->name, '-');
-
-        // if ($this->slug !== $slug)
-        // {
-        //     return true;
-        // }
-
-        // return false;
     }
 }

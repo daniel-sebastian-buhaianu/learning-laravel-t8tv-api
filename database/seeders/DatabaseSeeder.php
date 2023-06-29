@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::create([
-            'user_role_id' => 2,
+            'user_role_id' => 3,
             'first_name' => 'Daniel',
             'last_name' => 'Buhaianu',
             'email' => 'dsb99.dev@gmail.com',

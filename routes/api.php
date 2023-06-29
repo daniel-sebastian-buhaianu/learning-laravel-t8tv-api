@@ -2,10 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\UserRole;
-use App\Models\User;
-use App\Models\RumbleChannel;
-use App\Models\RumbleVideo;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserRoleController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RumbleChannelController;
+use App\Http\Controllers\RumbleVideoController;
+use App\Http\Controllers\VideoCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,27 +20,40 @@ use App\Models\RumbleVideo;
 |
 */
 
-Route::get('/user-role', [App\Http\Controllers\UserRoleController::class, 'index']);
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
+Route::controller(AuthController::class)->group(function () {
+    Route::post('/register', 'register');
+    Route::post('/login', 'login');
+});
 
-Route::get('/user', [App\Http\Controllers\UserController::class, 'index']);
+Route::get('/user-role', [UserRoleController::class, 'index']);
+Route::get('/user', [UserController::class, 'index']);
+Route::get('/rumble-channel', [RumbleChannelController::class, 'index']);
+Route::get('/rumble-video', [RumbleVideoController::class, 'index']);
 
-Route::get('/rumble-channel', [App\Http\Controllers\RumbleChannelController::class, 'index']);
+Route::controller(VideoCategoryController::class)->group(function () {
+	Route::get('/video-category', 'index');
+	Route::get('/video-category/{id}', 'show');
+	Route::get('/video-category/search/{name}', 'search');
+});
 
-Route::get('/rumble-video', [App\Http\Controllers\RumbleVideoController::class, 'index']);
+/*
+|--------------------------------------------------------------------------
+| Protected Routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum'])->group(function () {
 
-Route::get('/video-category', [App\Http\Controllers\VideoCategoryController::class, 'index']);
-Route::post('/video-category', [App\Http\Controllers\VideoCategoryController::class, 'store']);
-Route::get('/video-category/{id}', [App\Http\Controllers\VideoCategoryController::class, 'show']);
-Route::put('/video-category/{id}', [App\Http\Controllers\VideoCategoryController::class, 'update']);
-Route::delete('/video-category/{id}', [App\Http\Controllers\VideoCategoryController::class, 'destroy']);
-Route::get('/video-category/search/{name}', [App\Http\Controllers\VideoCategoryController::class, 'search']);
+	Route::controller(VideoCategoryController::class)->group(function () {
+		Route::post('/video-category', 'store');
+		Route::put('/video-category/{id}', 'update');
+		Route::delete('/video-category/{id}', 'destroy');
+	});
 
-// Route::post('/video-category', function() {
-//     return VideoCategory::create([
-//         'name' => 'Tate Specials'
-//     ]);
-// });
+	Route::post('/logout', [AuthController::class, 'logout']);
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+});
