@@ -40,7 +40,47 @@ class DatabaseSeeder extends Seeder
             'user_role_id' => 3,
             'first_name' => 'Daniel',
             'last_name' => 'Buhaianu',
-            'email' => 'dsb99.dev@gmail.com',
+            'email' => 'daniel.buhaianu@gmail.com',
+            'password' => Hash::make('Abc123000!')
+        ]);
+
+        User::create([
+            'user_role_id' => 3,
+            'first_name' => 'Andrew',
+            'last_name' => 'Tate',
+            'email' => 'andrew.tate@gmail.com',
+            'password' => Hash::make('Abc123000!')
+        ]);
+
+        User::create([
+            'user_role_id' => 2,
+            'first_name' => 'Tristan',
+            'last_name' => 'Tate',
+            'email' => 'tristan.tate@gmail.com',
+            'password' => Hash::make('Abc123000!')
+        ]);
+
+        User::create([
+            'user_role_id' => 2,
+            'first_name' => 'Cousin',
+            'last_name' => 'Luke',
+            'email' => 'cousin.luke@gmail.com',
+            'password' => Hash::make('Abc123000!')
+        ]);
+
+        User::create([
+            'user_role_id' => 1,
+            'first_name' => 'Some',
+            'last_name' => 'Dork',
+            'email' => 'some.dork@gmail.com',
+            'password' => Hash::make('Abc123000!')
+        ]);
+
+        User::create([
+            'user_role_id' => 2,
+            'first_name' => 'Another',
+            'last_name' => 'Dork',
+            'email' => 'another.dork@gmail.com',
             'password' => Hash::make('Abc123000!')
         ]);
 
