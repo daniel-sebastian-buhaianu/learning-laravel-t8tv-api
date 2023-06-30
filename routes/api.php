@@ -66,7 +66,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 		Route::get('/rumble-channel', 'index');
 		Route::post('/rumble-channel', 'store')->middleware('can:create,App\Models\RumbleChannel');
 		Route::get('/rumble-channel/{id}', 'show');
-		// Route::put('/rumble-channel/{id}', 'update')->middleware('can:update,App\Models\RumbleChannel');
+		Route::put('/rumble-channel/{id}', 'update')->middleware('can:update,App\Models\RumbleChannel');
 		Route::delete('/rumble-channel/{id}', 'destroy')->middleware('can:delete,App\Models\RumbleChannel');
 		Route::get('/rumble-channel/search/{title}', 'search');
 	});
